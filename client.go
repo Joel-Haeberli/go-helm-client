@@ -15,7 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/util/homedir"
 
-	"github.com/mittwald/go-helm-client/values"
+	"github.com/Joel-Haeberli/go-helm-client/values"
 	"github.com/spf13/pflag"
 	"helm.sh/helm/v3/pkg/action"
 	"helm.sh/helm/v3/pkg/chart"

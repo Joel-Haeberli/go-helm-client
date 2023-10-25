@@ -8,8 +8,8 @@ import (
 	context "context"
 	reflect "reflect"
 
+	helmclient "github.com/Joel-Haeberli/go-helm-client"
 	gomock "github.com/golang/mock/gomock"
-	helmclient "github.com/mittwald/go-helm-client"
 	action "helm.sh/helm/v3/pkg/action"
 	chart "helm.sh/helm/v3/pkg/chart"
 	release "helm.sh/helm/v3/pkg/release"
@@ -54,17 +54,17 @@ func (mr *MockClientMockRecorder) AddOrUpdateChartRepo(entry interface{}) *gomoc
 }
 
 // DependencyBuild mocks base method.
-func (m *MockClient) DependencyBuild(chartPath string) error {
+func (m *MockClient) DependencyBuild(chartPath string, dependency *action.Dependency) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DependencyBuild", chartPath)
+	ret := m.ctrl.Call(m, "DependencyBuild", chartPath, dependency)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DependencyBuild indicates an expected call of DependencyBuild.
-func (mr *MockClientMockRecorder) DependencyBuild(chartPath interface{}) *gomock.Call {
+func (mr *MockClientMockRecorder) DependencyBuild(chartPath, dependency interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DependencyBuild", reflect.TypeOf((*MockClient)(nil).DependencyBuild), chartPath)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DependencyBuild", reflect.TypeOf((*MockClient)(nil).DependencyBuild), chartPath, dependency)
 }
 
 // GetChart mocks base method.
@@ -203,17 +203,18 @@ func (mr *MockClientMockRecorder) ListReleasesByStateMask(arg0 interface{}) *gom
 }
 
 // Package mocks base method.
-func (m *MockClient) Package(chartPath string) error {
+func (m *MockClient) Package(chartPath string, pkg *action.Package) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Package", chartPath)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret := m.ctrl.Call(m, "Package", chartPath, pkg)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Package indicates an expected call of Package.
-func (mr *MockClientMockRecorder) Package(chartPath interface{}) *gomock.Call {
+func (mr *MockClientMockRecorder) Package(chartPath, pkg interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Package", reflect.TypeOf((*MockClient)(nil).Package), chartPath)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Package", reflect.TypeOf((*MockClient)(nil).Package), chartPath, pkg)
 }
 
 // RollbackRelease mocks base method.
