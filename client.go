@@ -313,6 +313,17 @@ func (c *HelmClient) Package(chartPath string, pkg *action.Package) (string, err
 	return pack(chartPath, pkg, c)
 }
 
+// options to configure push action to push to a registry
+type RegistryPushOptions struct {
+	certFile              string
+	keyFile               string
+	caFile                string
+	insecureSkipTLSverify bool
+	plainHTTP             bool
+	cfg                   *action.Configuration
+}
+
+// push will push a built chart to the given oci compliant registry.
 func (c *HelmClient) Push(chartRef string, remote string, o RegistryPushOptions) error {
 	registryClient, err := c.newRegistryClient(o.certFile, o.keyFile, o.caFile, o.insecureSkipTLSverify, o.plainHTTP)
 	if err != nil {
@@ -327,6 +338,30 @@ func (c *HelmClient) Push(chartRef string, remote string, o RegistryPushOptions)
 	client.Settings = c.Settings
 	_, err = client.Run(chartRef, remote)
 	return err
+}
+
+type RegistryLoginOptions struct {
+	username             string
+	password             string
+	passwordFromStdinOpt bool
+	certFile             string
+	keyFile              string
+	caFile               string
+	insecure             bool
+}
+
+// Login to a registry. Username and password as well as Certificats can be supplied over the RegistryLoginOptions.
+func (c *HelmClient) RegistryLogin(hostname string, registryLoginOptions RegistryLoginOptions) error {
+
+	return action.NewRegistryLogin(c.ActionConfig).Run(
+		c.output,
+		hostname,
+		registryLoginOptions.username,
+		registryLoginOptions.password,
+		action.WithCertFile(registryLoginOptions.certFile),
+		action.WithKeyFile(registryLoginOptions.keyFile),
+		action.WithCAFile(registryLoginOptions.caFile),
+		action.WithInsecure(registryLoginOptions.insecure))
 }
 
 // install installs the provided chart.
@@ -956,16 +991,6 @@ func pack(chartPath string, pkg *action.Package, c *HelmClient) (string, error) 
 	}
 
 	return packPath, nil
-}
-
-// options to configure push action to push to a registry
-type RegistryPushOptions struct {
-	certFile              string
-	keyFile               string
-	caFile                string
-	insecureSkipTLSverify bool
-	plainHTTP             bool
-	cfg                   *action.Configuration
 }
 
 // generates new registry client. This code was copied from the official helm distro.

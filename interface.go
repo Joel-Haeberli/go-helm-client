@@ -33,6 +33,7 @@ type Client interface {
 	DependencyBuild(chartPath string, dependency *action.Dependency) error
 	Package(chartPath string, pkg *action.Package) (string, error)
 	Push(chartRef string, remote string, pushOpts RegistryPushOptions) error
+	RegistryLogin(hostname string, registryLoginOptions RegistryLoginOptions) error
 }
 
 type RollBack interface {
