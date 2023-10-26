@@ -315,25 +315,25 @@ func (c *HelmClient) Package(chartPath string, pkg *action.Package) (string, err
 
 // options to configure push action to push to a registry
 type RegistryPushOptions struct {
-	certFile              string
-	keyFile               string
-	caFile                string
-	insecureSkipTLSverify bool
-	plainHTTP             bool
-	cfg                   *action.Configuration
+	CertFile              string
+	KeyFile               string
+	CaFile                string
+	InsecureSkipTLSverify bool
+	PlainHTTP             bool
+	Cfg                   *action.Configuration
 }
 
 // push will push a built chart to the given oci compliant registry.
 func (c *HelmClient) Push(chartRef string, remote string, o RegistryPushOptions) error {
-	registryClient, err := c.newRegistryClient(o.certFile, o.keyFile, o.caFile, o.insecureSkipTLSverify, o.plainHTTP)
+	registryClient, err := c.newRegistryClient(o.CertFile, o.KeyFile, o.CaFile, o.InsecureSkipTLSverify, o.PlainHTTP)
 	if err != nil {
 		return fmt.Errorf("missing registry client: %w", err)
 	}
-	o.cfg.RegistryClient = registryClient
-	client := action.NewPushWithOpts(action.WithPushConfig(o.cfg),
-		action.WithTLSClientConfig(o.certFile, o.keyFile, o.caFile),
-		action.WithInsecureSkipTLSVerify(o.insecureSkipTLSverify),
-		action.WithPlainHTTP(o.plainHTTP),
+	o.Cfg.RegistryClient = registryClient
+	client := action.NewPushWithOpts(action.WithPushConfig(o.Cfg),
+		action.WithTLSClientConfig(o.CertFile, o.KeyFile, o.CaFile),
+		action.WithInsecureSkipTLSVerify(o.InsecureSkipTLSverify),
+		action.WithPlainHTTP(o.PlainHTTP),
 		action.WithPushOptWriter(os.Stdout))
 	client.Settings = c.Settings
 	_, err = client.Run(chartRef, remote)
