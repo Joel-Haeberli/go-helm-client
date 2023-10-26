@@ -217,6 +217,34 @@ func (mr *MockClientMockRecorder) Package(chartPath, pkg interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Package", reflect.TypeOf((*MockClient)(nil).Package), chartPath, pkg)
 }
 
+// Push mocks base method.
+func (m *MockClient) Push(chartRef, remote string, pushOpts helmclient.RegistryPushOptions) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Push", chartRef, remote, pushOpts)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Push indicates an expected call of Push.
+func (mr *MockClientMockRecorder) Push(chartRef, remote, pushOpts interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Push", reflect.TypeOf((*MockClient)(nil).Push), chartRef, remote, pushOpts)
+}
+
+// RegistryLogin mocks base method.
+func (m *MockClient) RegistryLogin(hostname string, registryLoginOptions helmclient.RegistryLoginOptions) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RegistryLogin", hostname, registryLoginOptions)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RegistryLogin indicates an expected call of RegistryLogin.
+func (mr *MockClientMockRecorder) RegistryLogin(hostname, registryLoginOptions interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegistryLogin", reflect.TypeOf((*MockClient)(nil).RegistryLogin), hostname, registryLoginOptions)
+}
+
 // RollbackRelease mocks base method.
 func (m *MockClient) RollbackRelease(spec *helmclient.ChartSpec) error {
 	m.ctrl.T.Helper()

@@ -341,13 +341,13 @@ func (c *HelmClient) Push(chartRef string, remote string, o RegistryPushOptions)
 }
 
 type RegistryLoginOptions struct {
-	username             string
-	password             string
-	passwordFromStdinOpt bool
-	certFile             string
-	keyFile              string
-	caFile               string
-	insecure             bool
+	Username             string
+	Password             string
+	PasswordFromStdinOpt bool
+	CertFile             string
+	KeyFile              string
+	CaFile               string
+	Insecure             bool
 }
 
 // Login to a registry. Username and password as well as Certificats can be supplied over the RegistryLoginOptions.
@@ -356,12 +356,12 @@ func (c *HelmClient) RegistryLogin(hostname string, registryLoginOptions Registr
 	return action.NewRegistryLogin(c.ActionConfig).Run(
 		c.output,
 		hostname,
-		registryLoginOptions.username,
-		registryLoginOptions.password,
-		action.WithCertFile(registryLoginOptions.certFile),
-		action.WithKeyFile(registryLoginOptions.keyFile),
-		action.WithCAFile(registryLoginOptions.caFile),
-		action.WithInsecure(registryLoginOptions.insecure))
+		registryLoginOptions.Username,
+		registryLoginOptions.Password,
+		action.WithCertFile(registryLoginOptions.CertFile),
+		action.WithKeyFile(registryLoginOptions.KeyFile),
+		action.WithCAFile(registryLoginOptions.CaFile),
+		action.WithInsecure(registryLoginOptions.Insecure))
 }
 
 // install installs the provided chart.
